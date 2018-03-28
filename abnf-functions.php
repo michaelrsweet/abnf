@@ -316,6 +316,9 @@ abnf_load($abnf)			// I - ABNF file as string
     }
   }
 
+  if ($token != "")
+    $tokens[sizeof($tokens)] = strtolower($token);
+
   if ($name != "")
     $rules[$name] = $tokens;
 
