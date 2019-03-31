@@ -37,7 +37,7 @@ $abnf_text = "";
 $abnf_rule = "";
 $abnf_mode = ABNF_INSENSITIVE;
 
-if ($REQUEST_METHOD == "POST")
+if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
   if ($abnf_text == "" && array_key_exists("abnf_text", $_POST))
     $abnf_text = trim($_POST["abnf_text"]);
