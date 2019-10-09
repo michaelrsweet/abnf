@@ -1,0 +1,4 @@
+; Test ABNF file
+name = 1*ALPHA
+dec = 1*DIGIT
+hex = 1*HEXDIG
