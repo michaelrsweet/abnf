@@ -33,7 +33,7 @@ $abnf_core = array(
   "ctl" => array("%x00-1f", "/", "%x7f"),
   "digit" => array("%x30-39"),
   "dquote" => array("%x22"),
-  "hexdig" => array("digit", "/", "\"%x41-46\"", "/", "\"%x61-66\""),
+  "hexdig" => array("digit", "/", "%x41-46", "/", "%x61-66"),
   "htab" => array("%x09"),
   "lf" => array("%x0a"),
   "lwsp" => array("*", "(", "wsp", "/", "crlf", "wsp", ")"),
@@ -278,6 +278,7 @@ abnf_load($abnf)			// I - ABNF file as string
                         ."%x[0-9a-fA-F]+(\\.[0-9a-fA-F]+)*)[ \t\n\r]/",
                          substr($abnf, $i), $matches))
           {
+            // Single character constant
             $i += strlen($matches[1]);
             $col += strlen($matches[1]);
             $tokens[sizeof($tokens)] = $matches[1];
@@ -287,6 +288,7 @@ abnf_load($abnf)			// I - ABNF file as string
 			     ."%x[0-9a-fA-F]+-[0-9a-fA-F]+)[ \t\n\r]/",
 			      substr($abnf, $i), $matches))
           {
+            // Range of character constants
             $i += strlen($matches[1]);
             $col += strlen($matches[1]);
             $tokens[sizeof($tokens)] = $matches[1];
@@ -360,12 +362,13 @@ abnf_regex($rules,			// I - Rules
   $modstack = array();
   $mod      = "";
 
-//  print("<p>\$rules[\"$name\"] =");
+//  print("\$rules[\"$name\"] =");
 //  print_r($rules[$name]);
-//  print("</p>\n");
 
   foreach ($rules[$name] as $token)
   {
+//    print("token=\"$token\"\n");
+
     if ($token == "/")
     {
      /* Alternative */
@@ -508,6 +511,8 @@ abnf_regex($rules,			// I - Rules
 
   if ($alternatives)
     $regex .= ")";
+
+//  print("Before optimization: $regex\n");
 
   // Optimize common stuff that can be optimized
   $regex = str_replace(array("(0|1|2|3|4|5|6|7|8|9)",

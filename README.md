@@ -40,7 +40,7 @@ The "mode" parameter can be any of the following constants:
 
 ## Legal Stuff
 
-Copyright (c) 2013-2017 Michael R Sweet
+Copyright (c) 2013-2019 Michael R Sweet
 
 This software is provided under the terms of the MIT license, which is provided
 in the file "LICENSE.md".
