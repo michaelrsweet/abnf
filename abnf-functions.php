@@ -385,7 +385,7 @@ abnf_regex($rules,			// I - Rules
     {
      /* Optional */
       $regex .= "(";
-      array_push($modstack, "{0,1}");
+      array_push($modstack, "?");
       $mod = "";
     }
     else if ($token == ")" || $token == "]")
@@ -436,13 +436,17 @@ abnf_regex($rules,			// I - Rules
         else
           $mod = "{" . $matches[1] . ",}";
       }
+      else if ($matches[1] == "0" && $matches[2] == "1")
+        $mod = "?";
+      else if ($matches[1] == $matches[2])
+        $mod = "{" . $matches[1] . "}";
       else
         $mod = "{" . $matches[1] . "," . $matches[2] . "}";
     }
     else if ((int)$token > 0)
     {
      /* Convert repetition to regex modifier */
-      $mod = "{" . $token . "," . $token . "}";
+      $mod = "{" . $token . "}";
     }
     else if ($token[0] == "%")
     {
@@ -515,7 +519,8 @@ abnf_regex($rules,			// I - Rules
 //  print("Before optimization: $regex\n");
 
   // Optimize common stuff that can be optimized
-  $regex = str_replace(array("(0|1|2|3|4|5|6|7|8|9)",
+  $regex = str_replace(array("( |\t)",
+                             "(0|1|2|3|4|5|6|7|8|9)",
                              "(a|b|c|d|e|f)",
                              "(A|B|C|D|E|F)",
                              "([Aa]|[Bb]|[Cc]|[Dd]|[Ee]|[Ff])",
@@ -535,7 +540,7 @@ abnf_regex($rules,			// I - Rules
 			     "[a-f0-9]|\\-",
 			     "[A-F0-9]|\\-",
 			     "[A-Fa-f0-9]|\\-"),
-                       array("[0-9]", "[a-f]", "[A-F]", "[A-Fa-f]",
+                       array("[ \\t]", "[0-9]", "[a-f]", "[A-F]", "[A-Fa-f]",
                              "[a-z]", "[A-Z]", "[A-Za-z]",
                              "[-a-z0-9]", "[-A-Z0-9]", "[-A-Za-z0-9]",
                              "_a-z0-9]", "_A-Z0-9]", "_A-Za-z0-9]",

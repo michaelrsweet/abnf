@@ -5,6 +5,10 @@ hex = 1*HEXDIG
 
 dec-octet = DIGIT / 2*DIGIT / "1" 2DIGIT
 
+h1 = WSP
+h2 = [ "a" ]
+h3 = 2("a")
+
 ; From PWG 5101.1
 media-size-self-describing-name =
                   media-size-name / "choice" 2*( "_" media-size-name )
