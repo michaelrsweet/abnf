@@ -34,16 +34,43 @@ global $_SERVER;
 $argc = $_SERVER["argc"];
 $argv = $_SERVER["argv"];
 
-if ($argc < 2 || $argc > 3)
+$abnf_file = "";
+$abnf_rule = "";
+$abnf_mode = ABNF_INSENSITIVE;
+
+for ($i = 1; $i < $argc; $i ++)
 {
-  print("Usage: ./testabnf.php filename.abnf [rulename]\n");
+  if ($argv[$i] == "-l")
+    $abnf_mode = ABNF_LOWERCASE;
+  else if ($argv[$i] == "-s")
+    $abnf_mode = ABNF_SENSITIVE;
+  else if ($argv[$i] == "-u")
+    $abnf_mode = ABNF_UPPERCASE;
+  else if ($argv[$i][0] == '-')
+  {
+    $opt = $argv[$i];
+    print("Unknown option '$opt'.\n");
+    break;
+  }
+  else if ($abnf_file == "")
+    $abnf_file = $argv[$i];
+  else if ($abnf_rule == "")
+    $abnf_rule = $argv[$i];
+  else
+    break;
+}
+
+if ($abnf_file == "" || $i < $argc)
+{
+  print("Usage: ./testabnf.php [options] filename.abnf [rulename]\n");
+  print("Options:\n");
+  print("  -l   Lowercase ABNF\n");
+  print("  -s   Case-sensitive ABNF as specified\n");
+  print("  -u   Uppercase ABNF\n");
   exit(1);
 }
 
-$abnf_file = $argv[1];
-$abnf_rule = $argv[2];
 $abnf_text = trim(file_get_contents($abnf_file));
-$abnf_mode = ABNF_INSENSITIVE;
 
 if (($rules = abnf_load($abnf_text)) === FALSE)
 {

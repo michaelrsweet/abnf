@@ -2,3 +2,31 @@
 name = 1*ALPHA
 dec = 1*DIGIT
 hex = 1*HEXDIG
+
+dec-octet = DIGIT / 2*DIGIT / "1" 2DIGIT
+
+; From PWG 5101.1
+media-size-self-describing-name =
+                  media-size-name / "choice" 2*( "_" media-size-name )
+media-size-name = class-in "_" base-name "_" short-dim "x" long-dim "in" /
+                  class-mm "_" base-name "_" short-dim "x" long-dim "mm" /
+                  "disc_" base-name "_" inner-dim "x" outer-dim "mm"
+class-in        = "custom" / "na" / "asme" / "roc" / "oe" / "roll"
+class-mm        = "custom" / "iso" / "jis" / "jpn" / "prc" / "om" / "roll"
+short-dim       = dim
+long-dim        = dim / "0"
+inner-dim       = dim
+outer-dim       = dim
+dim             = integer-part [fraction-part] / "0" fraction-part
+integer-part    = non-zero-digit *DIGIT
+fraction-part   = "." *DIGIT non-zero-digit
+
+class-name      = ( ALPHA / DIGIT ) *( ALPHA / DIGIT / "." )
+
+base-name = ( ALPHA / DIGIT ) *( ALPHA / DIGIT / "-" / "." )
+
+dns-name = "." 1*( ALPHA / DIGIT / "-" )
+
+keyword = ALPHA 1*( ALPHA / DIGIT / "-" / "_" / ".")
+
+non-zero-digit = %x31-39
