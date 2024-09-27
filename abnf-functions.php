@@ -2,7 +2,7 @@
 //
 // ABNF to REGEX Library
 //
-// Copyright © 2013-2019 Michael R Sweet
+// Copyright © 2013-2024 Michael R Sweet
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -484,7 +484,7 @@ abnf_regex($rules,			// I - Rules
 	 /* Decimal */
 	  while ($i < $len && ctype_digit($token[$i]))
 	  {
-	    $ch = $ch * 16 + (int)$token[$i];
+	    $ch = $ch * 10 + (int)$token[$i];
 	    $i ++;
 	  }
 	}
