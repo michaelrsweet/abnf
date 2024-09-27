@@ -275,7 +275,7 @@ abnf_load($abnf)			// I - ABNF file as string
 
           if (preg_match("/^(%b[01]+(\\.[01]+)*|"
                         ."%d[0-9]+(\\.[0-9]+)*|"
-                        ."%x[0-9a-fA-F]+(\\.[0-9a-fA-F]+)*)([ \t\n\r]|\$)/",
+                        ."%x[0-9a-fA-F]+(\\.[0-9a-fA-F]+)*)([ ()\t\n\r]|\$)/",
                          substr($abnf, $i), $matches))
           {
             // Single character constant
@@ -285,7 +285,7 @@ abnf_load($abnf)			// I - ABNF file as string
           }
           else if (preg_match("/^(%b[01]+-[01]+|"
 			     ."%d[0-9]+-[0-9]+|"
-			     ."%x[0-9a-fA-F]+-[0-9a-fA-F]+)([ \t\n\r]|\$)/",
+			     ."%x[0-9a-fA-F]+-[0-9a-fA-F]+)([ ()\t\n\r]|\$)/",
 			      substr($abnf, $i), $matches))
           {
             // Range of character constants
