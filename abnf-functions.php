@@ -489,7 +489,16 @@ abnf_regex($rules,			// I - Rules
 	  }
 	}
 
-        $regex .= preg_quote(chr($ch));
+        if ($ch < 32 || $ch == 127)
+        {
+         /* Quote control codes */
+          $regex .= sprintf("\\x%02x", $ch);
+        }
+        else
+        {
+         /* Escape special regex characters, including '/' */
+          $regex .= preg_quote(chr($ch), '/');
+        }
 
         if ($i < $len && $token[$i] == '-')
           $regex .= "-";
